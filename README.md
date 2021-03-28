@@ -1,1 +1,1 @@
-# mern_ecommerce
+### MERN (MongoDB, Express, React, Nodejs) tutorial: an eCommerce web site.
