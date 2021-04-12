@@ -12,7 +12,7 @@ const Rating = ({ value, text, color }) => {
               : value >= 0.5
                 ? 'fa fa-half-star'
                 : 'far fa-star'
-          }></i>
+          } />
       </span>
       <span>
         <i style={{ color }}
@@ -22,7 +22,7 @@ const Rating = ({ value, text, color }) => {
               : value >= 1.5
                 ? 'fa fa-half-star'
                 : 'far fa-star'
-          }></i>
+          } />
       </span>
       <span>
         <i style={{ color }}
@@ -32,7 +32,7 @@ const Rating = ({ value, text, color }) => {
               : value >= 2.5
                 ? 'fa fa-half-star'
                 : 'far fa-star'
-          }></i>
+          } />
       </span>
       <span>
         <i style={{ color }}
@@ -42,7 +42,7 @@ const Rating = ({ value, text, color }) => {
               : value >= 3.5
                 ? 'fa fa-half-star'
                 : 'far fa-star'
-          }></i>
+          } />
       </span>
       <span>
         <i style={{ color }}
@@ -52,7 +52,7 @@ const Rating = ({ value, text, color }) => {
               : value >= 4.5
                 ? 'fa fa-half-star'
                 : 'far fa-star'
-          }></i>
+          } />
       </span>
       <span className="ml-1">{text && text}</span>
     </div>
