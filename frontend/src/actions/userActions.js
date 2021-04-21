@@ -5,7 +5,7 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGOUT
 } from '../constants/userConstants'
-import {PRODUCT_LIST_FAIL} from '../constants/productConstants'
+
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -40,4 +40,9 @@ export const login = (email, password) => async (dispatch) => {
         : error.message
     })
   }
+}
+
+export const logout = () => (dispatch) => {
+  localStorage.removeItem('userInfo')
+  dispatch({type: USER_LOGOUT})
 }
