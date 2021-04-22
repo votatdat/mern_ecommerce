@@ -63,7 +63,7 @@ const CartScreen = ({match, location, history}) => {
                           <option key={x+1} value={x+1}>
                             {x+1}
                           </option>
-                        ))}                        }
+                        ))}
                       </Form.Control>
                     </Col>
                     <Col md={2}>
