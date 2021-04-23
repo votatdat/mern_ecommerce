@@ -5,7 +5,8 @@ import {useDispatch, useSelector} from 'react-redux'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import {listProductDetails} from '../actions/productActions'
+import {listProductDetails, updateProduct} from '../actions/productActions'
+import {PRODUCT_UPDATE_RESET} from '../constants/productConstants'
 
 const ProductEditScreen = ({match, history}) => {
   const productId = match.params.id
@@ -23,24 +24,47 @@ const ProductEditScreen = ({match, history}) => {
   const productDetails = useSelector(state => state.productDetails)
   const {loading, error, product} = productDetails
 
+  const productUpdate = useSelector(state => state.productUpdate)
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = productUpdate
+
   useEffect(() => {
-    if (!product.name || product._id !== productId) {
-      dispatch(listProductDetails(productId))
+    if (successUpdate){
+      dispatch({type: PRODUCT_UPDATE_RESET})
+      history.push('/admin/productlist')
     } else {
-      setName(product.name)
-      setPrice(product.price)
-      setDescription(product.description)
-      setImage(product.image)
-      setBrand(product.brand)
-      setCategory(product.category)
-      setCountInStock(product.countInStock)
+      if (!product.name || product._id !== productId) {
+        dispatch(listProductDetails(productId))
+      } else {
+        setName(product.name)
+        setPrice(product.price)
+        setDescription(product.description)
+        setImage(product.image)
+        setBrand(product.brand)
+        setCategory(product.category)
+        setCountInStock(product.countInStock)
+      }
     }
 
-  }, [dispatch, history, productId, product])
+  }, [dispatch, history, productId, product, successUpdate])
 
   const submitHandler = (e) => {
     e.preventDefault()
-    // UPDATE PRODUCT
+    dispatch(
+      updateProduct({
+        _id: productId,
+        name,
+        price,
+        image,
+        brand,
+        category,
+        description,
+        countInStock,
+      })
+    )
   }
 
   return (
@@ -48,6 +72,8 @@ const ProductEditScreen = ({match, history}) => {
       <Link to={`/admin/productlist`} className='btn btn-light my-3'>Go Back</Link>
       <FormContainer>
         <h1>Edit Product</h1>
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
         {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>
