@@ -5,27 +5,35 @@ import {LinkContainer} from 'react-router-bootstrap'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import {listProducts} from '../actions/productActions'
+import {deleteProduct} from '../actions/productActions'
 
-const ProductListScreen = ({history, match}) => {
+const ProductListScreen = ({history}) => {
   const dispatch = useDispatch()
 
   const productList = useSelector(state => state.productList)
   const {loading, error, products} = productList
 
+  const productDelete = useSelector(state => state.productDelete)
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = productDelete
+
   const userLogin = useSelector(state => state.userLogin)
   const {userInfo} = userLogin
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin){
+    if (userInfo && userInfo.isAdmin) {
       dispatch(listProducts())
     } else {
       history.push('/login')
     }
-  }, [dispatch, history, userInfo])
+  }, [dispatch, history, userInfo, successDelete])
 
   const deleteHandler = (id) => {
-    if (window.confirm('Are you sure?')){
-      ///// Add later
+    if (window.confirm('Are you sure?')) {
+      dispatch(deleteProduct(id))
     }
   }
 
@@ -41,11 +49,13 @@ const ProductListScreen = ({history, match}) => {
         </Col>
         <Col className='text-right'>
           <Button className='my-3' onClick={createProductHandler}>
-            <i className='fas fa-plus' /> Create Product
+            <i className='fas fa-plus'/> Create Product
           </Button>
         </Col>
       </Row>
-      {loading ? <Loader /> : error
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+      {loading ? <Loader/> : error
         ? <Message variant='danger'>{error}</Message>
         : (
           <Table
@@ -62,7 +72,7 @@ const ProductListScreen = ({history, match}) => {
               <th>PRICE</th>
               <th>CATEGORY</th>
               <th>BRAND</th>
-              <th />
+              <th/>
             </tr>
             </thead>
             <tbody>
@@ -76,14 +86,14 @@ const ProductListScreen = ({history, match}) => {
                 <td>
                   <LinkContainer to={`/admin/product/${product._id}/edit`}>
                     <Button className='btn-sm' variant='light'>
-                      <i className='fas fa-edit' />
+                      <i className='fas fa-edit'/>
                     </Button>
                   </LinkContainer>
                   <Button
                     variant='danger'
                     className='btn-sm'
                     onClick={() => deleteHandler(product._id)}>
-                    <i className='fas fa-trash' />
+                    <i className='fas fa-trash'/>
                   </Button>
                 </td>
               </tr>
