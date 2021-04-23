@@ -17,6 +17,7 @@ import {
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
+  USER_LIST_RESET,
 } from '../constants/userConstants'
 import {ORDER_LIST_MY_RESET} from '../constants/orderConstants'
 
@@ -61,6 +62,7 @@ export const logout = () => (dispatch) => {
   dispatch({type: USER_LOGOUT})
   dispatch({type: USER_DETAILS_RESET})
   dispatch({type: ORDER_LIST_MY_RESET})
+  dispatch({type: USER_LIST_RESET})
 }
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -186,15 +188,10 @@ export const listUsers = () => async (dispatch, getState) => {
       }
     }
 
-    const {data} = await axios.get(`/api/users/`, config)
+    const {data} = await axios.get(`/api/users`, config)
 
     dispatch({
       type: USER_LIST_SUCCESS,
-      payload: data,
-    })
-
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
       payload: data,
     })
   } catch (error) {
