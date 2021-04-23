@@ -138,7 +138,7 @@ const ProfileScreen = ({location, history}) => {
                     <i className='fas fa-times' style={{color: 'red'}} />
                   )}</td>
                   <td>
-                    <LinkContainer to={`/orders/${order._id}`}>
+                    <LinkContainer to={`/order/${order._id}`}>
                       <Button className='btn-sm' variant="light">Details</Button>
                     </LinkContainer>
                   </td>
